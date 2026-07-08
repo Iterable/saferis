@@ -3,15 +3,15 @@ val zioVersion    = "2.1.26"
 
 // Global settings using ThisBuild scope
 ThisBuild / scalaVersion         := scala3Version
-ThisBuild / organization         := "io.github.russwyte"
-ThisBuild / organizationName     := "russwyte"
-ThisBuild / organizationHomepage := Some(url("https://github.com/russwyte"))
+ThisBuild / organization         := "rocks.earlyeffect"
+ThisBuild / organizationName     := "Early Effect"
+ThisBuild / organizationHomepage := Some(url("https://www.earlyeffect.rocks"))
 ThisBuild / licenses             := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-ThisBuild / homepage             := Some(url("https://github.com/russwyte/saferis"))
+ThisBuild / homepage             := Some(url("https://github.com/early-effect/saferis"))
 ThisBuild / scmInfo              := Some(
   ScmInfo(
-    url("https://github.com/russwyte/saferis"),
-    "scm:git@github.com:russwyte/saferis.git",
+    url("https://github.com/early-effect/saferis"),
+    "scm:git@github.com:early-effect/saferis.git",
   )
 )
 ThisBuild / developers := List(
@@ -33,9 +33,11 @@ ThisBuild / publishTo := {
   else localStaging.value
 }
 
-// CI overrides the key via PGP_KEY_HEX (dedicated GitHub Actions signing key);
-// local manual publishing falls back to the personal key on this machine.
-usePgpKeyHex(sys.env.getOrElse("PGP_KEY_HEX", "2F64727A87F1BCF42FD307DD8582C4F16659A7D6"))
+// CI-only publishing: the signing key hex comes from the PGP_KEY_HEX env var, set by
+// the shared early-effect org secret in the release workflow. There is no real key in
+// this file — the "MISSING_KEY_HEX" sentinel keeps the build loadable for local
+// compile/test but makes signing fail loudly if anyone tries to publish off-CI.
+usePgpKeyHex(sys.env.getOrElse("PGP_KEY_HEX", "MISSING_KEY_HEX"))
 
 lazy val commonSettings = Seq(
   scalacOptions ++= Seq(
