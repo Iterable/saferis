@@ -89,12 +89,14 @@ zipxCapabilities ++= {
     ZipxCentral.release
       .copy(command = _ => "core/publishSigned; sonaRelease")
       .withCondition(upstream),
-    ZipxGitHubPackages.sharedRegistry(
-      repository = Some("Iterable/saferis"),
-      packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
-      publishOrg = Some("com.iterable"),
-      publishOrgName = Some("Iterable"),
-    ).copy(command = _ => "core/publish"),
+    ZipxGitHubPackages
+      .sharedRegistry(
+        repository = Some("Iterable/saferis"),
+        packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
+        publishOrg = Some("com.iterable"),
+        publishOrgName = Some("Iterable"),
+      )
+      .copy(command = _ => "core/publish"),
   )
 }
 lazy val commonSettings = Seq(
@@ -131,7 +133,7 @@ lazy val core = project
     libraryDependencies ++= Seq(
       "dev.zio"           %% "zio"                       % zioVersion % "provided",
       "dev.zio"           %% "zio-streams"               % zioVersion % "provided",
-      "dev.zio"           %% "zio-json"                  % "0.9.2"    % "provided",
+      "dev.zio"           %% "zio-json"                  % "0.10.0"   % "provided",
       "dev.zio"           %% "zio-logging-slf4j2-bridge" % "2.5.3"    % Test,
       "dev.zio"           %% "zio-test"                  % zioVersion % Test,
       "dev.zio"           %% "zio-test-sbt"              % zioVersion % Test,
