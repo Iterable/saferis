@@ -89,12 +89,14 @@ zipxCapabilities ++= {
     ZipxCentral.release
       .copy(command = _ => "core/publishSigned; sonaRelease")
       .withCondition(upstream),
-    ZipxGitHubPackages.sharedRegistry(
-      repository = Some("Iterable/saferis"),
-      packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
-      publishOrg = Some("com.iterable"),
-      publishOrgName = Some("Iterable"),
-    ).copy(command = _ => "core/publish"),
+    ZipxGitHubPackages
+      .sharedRegistry(
+        repository = Some("Iterable/saferis"),
+        packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
+        publishOrg = Some("com.iterable"),
+        publishOrgName = Some("Iterable"),
+      )
+      .copy(command = _ => "core/publish"),
   )
 }
 lazy val commonSettings = Seq(
@@ -155,7 +157,7 @@ lazy val docs = project
       "dev.zio"           %% "zio-json"   % "0.9.0",
       "org.testcontainers" % "postgresql" % "1.21.4",
       "org.postgresql"     % "postgresql" % "42.7.13",
-      "org.slf4j"          % "slf4j-nop"  % "2.0.18",
+      "org.slf4j"          % "slf4j-nop"  % "2.0.19",
     ),
     marklitTargetDirectory  := (ThisBuild / baseDirectory).value / "docs",
     marklitRunResourceClass := Some("saferis.docs.DocsTransactor"),
