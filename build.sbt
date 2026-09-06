@@ -1,4 +1,4 @@
-val scala3Version = "3.3.8"
+val scala3Version = "3.9.0"
 val zioVersion    = "2.1.26"
 
 // Global settings. Iterable/saferis overrides group via PUBLISH_ORG from ZipxGitHubPackages.
@@ -89,12 +89,14 @@ zipxCapabilities ++= {
     ZipxCentral.release
       .copy(command = _ => "core/publishSigned; sonaRelease")
       .withCondition(upstream),
-    ZipxGitHubPackages.sharedRegistry(
-      repository = Some("Iterable/saferis"),
-      packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
-      publishOrg = Some("com.iterable"),
-      publishOrgName = Some("Iterable"),
-    ).copy(command = _ => "core/publish"),
+    ZipxGitHubPackages
+      .sharedRegistry(
+        repository = Some("Iterable/saferis"),
+        packagesRepo = Some("https://maven.pkg.github.com/iterable/maven-packages"),
+        publishOrg = Some("com.iterable"),
+        publishOrgName = Some("Iterable"),
+      )
+      .copy(command = _ => "core/publish"),
   )
 }
 lazy val commonSettings = Seq(
